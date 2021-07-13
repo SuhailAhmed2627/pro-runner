@@ -1,6 +1,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
+screen.orientation.addEventListener("change", function () {
+   if (screen.orientation.type == "landscape-primary" || screen.orientation.type == "landscape-secondary") {
+      document.body.style.transform = `rotate(${screen.orientation.type == "landscape-primary" ? -90 : 90})`;
+   }
+});
+
 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 if (!isMobile) {
