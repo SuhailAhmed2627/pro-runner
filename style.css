@@ -151,7 +151,7 @@ button:hover {
    display: none;
 }
 
-/* @media all and (orientation: portrait) {
+@media all and (orientation: portrait) {
    body {
       -webkit-transform: rotate(90deg);
       -moz-transform: rotate(90deg);
@@ -159,4 +159,4 @@ button:hover {
       -o-transform: rotate(90deg);
       transform: rotate(90deg);
    }
-} */
+}
