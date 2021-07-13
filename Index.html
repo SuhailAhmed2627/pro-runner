@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Pro Runner</title>
+      <link rel="stylesheet" href="style.css" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" />
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+   </head>
+   <body class="flexcol-center">
+      <div id="title" class="title padding-20">
+         <h1>Pro Runner</h1>
+      </div>
+      <div id="details" class="container flexcol-center padding-20">Keep Running, Don't Fall into the Holes, May the Gravitational Force be with you 🤖</div>
+      <div id="input-name" class="flexcol-center">
+         <label for="name">Enter Your Name:</label>
+         <input type="text" autocomplete="off" name="name" id="name" />
+      </div>
+      <button id="play-btn" onclick="play();">PLAY</button>
+      <div id="game-overlay" class="flexcol-center" style="z-index: +20">
+         <div id="game-overlay-text">Be Ready, Press Spacebar to switch</div>
+         <div id="view-scores-menu" class="flexcol-center">
+            <br />
+            <button id="viewscore-btn" onclick="viewHighScores();">View High Scores</button>
+            <br />
+            <button id="playagain-btn" onclick="window.location.reload()">Play Again</button>
+         </div>
+      </div>
+      <div id="outer-container">
+         <div id="canvas-container" class="flexcol-center">
+            <canvas id="game" width="800px" height="450px" style="z-index: -10"></canvas>
+            <canvas id="object" width="800px" height="450px" style="z-index: +10"></canvas>
+         </div>
+      </div>
+      <div id="score"></div>
+      <div id="high-scores" class="flexcol-center">
+         <h2>High Scores</h2>
+         <br />
+         <ol id="high-scores-list"></ol>
+         <br />
+         <button onclick="window.location.reload()">Play Again</button>
+      </div>
+      <script src="app.js"></script>
+   </body>
+</html>
