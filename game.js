@@ -62,12 +62,16 @@ class Game {
             this.speedX++;
          }
       }
-      var step = Math.floor(Math.random() * 100) + 1;
-      if (step < this.plan.powerUpProb) {
-         createNewPowerUp();
-      } else if (step < this.plan.obstacleProb) {
-         createNewObstacle(this.obstacleVX, this.obstacleVY);
-         window.requestAnimationFrame(renderHoles);
+      if (!GAME.isObjectRendering) {
+         var step = Math.floor(Math.random() * 100) + 1;
+         if (step < this.plan.powerUpProb) {
+            createNewPowerUp();
+         } else if (step < this.plan.obstacleProb) {
+            createNewObstacle(this.obstacleVX, this.obstacleVY);
+            window.requestAnimationFrame(renderHoles);
+         } else if (!GAME.isHoleRendering) {
+            window.requestAnimationFrame(renderHoles);
+         }
       } else if (!GAME.isHoleRendering) {
          window.requestAnimationFrame(renderHoles);
       }
@@ -135,7 +139,6 @@ class Obstacle {
       this.vx = vx;
       this.vy = vy;
       this.cord = { x: this.shape === "box" ? 800 : 825, y: this.shape === "box" ? Math.floor(Math.random() * (265 - 135) + 135) : Math.floor(Math.random() * (290 - 160) + 160) };
-      this.cord = { x: this.shape === "box" ? 800 : 825, y: this.shape === "box" ? 135 : 160 };
       this.movingDown = true;
       this.dimension = this.shape == "circle" ? 25 : 50;
    }
@@ -185,7 +188,6 @@ function push(direction) {
 
 // Using requestAnimationFrame render Holes
 function renderHoles() {
-   console.log(GAME.speedX);
    GAME.isHoleRendering = true;
    updateScore();
    GAME.distance++;
@@ -208,12 +210,9 @@ function renderHoles() {
       if (hole.xCord === -hole.width - GAME.speedX || (GAME.speedX % 3 === 0 && hole.xCord < -hole.width)) {
          context.clearRect(hole.xCord + GAME.speedX, hole.yCord, hole.width, 125);
          hole.reset();
-         if (GAME.isObjectRendering == true) {
-            renderHoles(hole);
-         } else {
-            GAME.isHoleRendering = false;
-            GAME.updateGamePlay();
-         }
+
+         GAME.isHoleRendering = false;
+         GAME.updateGamePlay();
       }
    }
 }
@@ -226,7 +225,6 @@ function touchedHole(x, y) {
          return true;
       }
    } else {
-      // if (player.transitioned && !player.pushedUp && player.xCord <= y && player.xCord + player.side >= x && player.xCord <= y && player.xCord >= x) {
       if (player.transitioned && !player.pushedUp && player.xCord + player.side / 2 <= y && player.xCord <= y && player.xCord >= x) {
          GAME.isGameOver = true;
          return true;
