@@ -4,7 +4,7 @@ const cos60 = Math.cos(Math.PI / 6);
 const spaceWidth = 800;
 const spaceHeight = 200;
 
-const gameOverMusic = new Audio("../Media/gameOverMusic.mp3");
+const gameOverMusic = new Audio("Media/gameOverMusic.mp3");
 
 // Colours
 const [grey, blue, red] = ["#363636", "#2588D4", "#EA3D51"];
@@ -236,9 +236,6 @@ function touchedHole(x, y) {
 // Using requestAnimationFrame render Obstacles
 function renderObstacle(obstacle) {
    GAME.isObjectRendering = true;
-   // updateScore();
-   // GAME.distance++;
-   // GAME.score = GAME.score + 1 / 10;
    context.beginPath();
    context.fillStyle = grey;
    if (obstacle.shape == "circle") {
