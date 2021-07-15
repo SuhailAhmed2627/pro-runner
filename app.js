@@ -7,19 +7,6 @@ screen.orientation.addEventListener("change", function () {
    }
 });
 
-var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-if (!isMobile) {
-   widthRatio = 0.95;
-   heightRatio = 0.65;
-   var deg = 0;
-   document.body.style.webkitTransform = "rotate(" + deg + "deg)";
-   document.body.style.mozTransform = "rotate(" + deg + "deg)";
-   document.body.style.msTransform = "rotate(" + deg + "deg)";
-   document.body.style.oTransform = "rotate(" + deg + "deg)";
-   document.body.style.transform = "rotate(" + deg + "deg)";
-}
-
 //DOM Variables
 const titleDOM = document.getElementById("title");
 const detailsDOM = document.getElementById("details");
@@ -111,7 +98,6 @@ document.addEventListener("keypress", (event) => {
 
 // Check if score is Highscore
 function checkHighScore(score) {
-   console.log(score);
    var highScores = [];
    var lowestScore;
    if (!JSON.parse(localStorage.getItem("HIGH_SCORES") === null)) {
