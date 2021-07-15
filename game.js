@@ -4,7 +4,7 @@ const cos60 = Math.cos(Math.PI / 6);
 const spaceWidth = 800;
 const spaceHeight = 200;
 
-const gameOverMusic = new Audio("Media/gameOverMusic.mp3");
+const gameOverMusic = new Audio("../Media/gameOverMusic.mp3");
 
 // Colours
 const [grey, blue, red] = ["#363636", "#2588D4", "#EA3D51"];
@@ -20,7 +20,7 @@ const contextObject = canvasObject.getContext("2d");
 //* Controls the State of the Game and produces next element
 class Game {
    constructor() {
-      this.speedX = 5;
+      this.speedX = 2;
       this.speedY = 5;
       this.obstacleVX = 1;
       this.obstacleVY = 1;
@@ -29,6 +29,8 @@ class Game {
       this.isGameOver = false;
       this.level = 1;
       this.levelGap = 5000;
+      this.isObjectRendering = false;
+      this.isHoleRendering = false;
       this.plan = {
          powerUpProb: 10,
          obstacleProb: 30,
@@ -37,7 +39,6 @@ class Game {
    }
 
    updateGamePlay() {
-      console.log("here");
       if (player.power.endPowerUp) {
          player.power.endPowerUp = false;
          endPowerUp();
@@ -66,7 +67,8 @@ class Game {
          createNewPowerUp();
       } else if (step < this.plan.obstacleProb) {
          createNewObstacle(this.obstacleVX, this.obstacleVY);
-      } else {
+         window.requestAnimationFrame(renderHoles);
+      } else if (!GAME.isHoleRendering) {
          window.requestAnimationFrame(renderHoles);
       }
    }
@@ -133,6 +135,7 @@ class Obstacle {
       this.vx = vx;
       this.vy = vy;
       this.cord = { x: this.shape === "box" ? 800 : 825, y: this.shape === "box" ? Math.floor(Math.random() * (265 - 135) + 135) : Math.floor(Math.random() * (290 - 160) + 160) };
+      this.cord = { x: this.shape === "box" ? 800 : 825, y: this.shape === "box" ? 135 : 160 };
       this.movingDown = true;
       this.dimension = this.shape == "circle" ? 25 : 50;
    }
@@ -182,11 +185,10 @@ function push(direction) {
 
 // Using requestAnimationFrame render Holes
 function renderHoles() {
-   console.log(hole.xCord);
+   GAME.isHoleRendering = true;
    updateScore();
    GAME.distance++;
    GAME.score = GAME.score + 1 / 10;
-   console;
    if (hole.xCord < 800) {
       context.clearRect(hole.xCord + GAME.speedX, hole.yCord, hole.width, 125);
    }
@@ -205,7 +207,12 @@ function renderHoles() {
       if (hole.xCord === -hole.width - GAME.speedX || (GAME.speedX % 3 === 0 && hole.xCord < -hole.width)) {
          context.clearRect(hole.xCord + GAME.speedX, hole.yCord, hole.width, 125);
          hole.reset();
-         GAME.updateGamePlay();
+         if (GAME.isObjectRendering == true) {
+            renderHoles(hole);
+         } else {
+            GAME.isHoleRendering = false;
+            GAME.updateGamePlay();
+         }
       }
    }
 }
@@ -228,9 +235,10 @@ function touchedHole(x, y) {
 
 // Using requestAnimationFrame render Obstacles
 function renderObstacle(obstacle) {
-   updateScore();
-   GAME.distance++;
-   GAME.score = GAME.score + 1 / 10;
+   GAME.isObjectRendering = true;
+   // updateScore();
+   // GAME.distance++;
+   // GAME.score = GAME.score + 1 / 10;
    context.beginPath();
    context.fillStyle = grey;
    if (obstacle.shape == "circle") {
@@ -280,6 +288,7 @@ function renderObstacle(obstacle) {
          renderObstacle(obstacle);
       });
    } else {
+      GAME.isObjectRendering = false;
       GAME.updateGamePlay();
    }
 }
