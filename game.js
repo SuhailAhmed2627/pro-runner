@@ -185,6 +185,7 @@ function push(direction) {
 
 // Using requestAnimationFrame render Holes
 function renderHoles() {
+   console.log(GAME.speedX);
    GAME.isHoleRendering = true;
    updateScore();
    GAME.distance++;
@@ -225,7 +226,8 @@ function touchedHole(x, y) {
          return true;
       }
    } else {
-      if (player.transitioned && !player.pushedUp && player.xCord + player.side <= y && player.xCord + player.side >= x && player.xCord <= y && player.xCord >= x) {
+      // if (player.transitioned && !player.pushedUp && player.xCord <= y && player.xCord + player.side >= x && player.xCord <= y && player.xCord >= x) {
+      if (player.transitioned && !player.pushedUp && player.xCord + player.side / 2 <= y && player.xCord <= y && player.xCord >= x) {
          GAME.isGameOver = true;
          return true;
       }
