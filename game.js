@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 const cos60 = Math.cos(Math.PI / 6);
 const spaceWidth = 800;
 const spaceHeight = 200;
@@ -210,7 +208,6 @@ function renderHoles() {
       if (hole.xCord === -hole.width - GAME.speedX || (GAME.speedX % 3 === 0 && hole.xCord < -hole.width)) {
          context.clearRect(hole.xCord + GAME.speedX, hole.yCord, hole.width, 125);
          hole.reset();
-
          GAME.isHoleRendering = false;
          GAME.updateGamePlay();
       }
