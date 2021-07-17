@@ -1,11 +1,22 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-
 screen.orientation.addEventListener("change", function () {
    if (screen.orientation.type == "landscape-primary" || screen.orientation.type == "landscape-secondary") {
       document.body.style.transform = `rotate(${screen.orientation.type == "landscape-primary" ? -90 : 90})`;
    }
 });
+
+const handleEvent = (event) => {
+   if (event.code === "Space" && !GAME.isGameOver) {
+      if (player.pushedUp) {
+         requestAnimationFrame(function () {
+            push("down");
+         });
+      } else {
+         requestAnimationFrame(function () {
+            push("up");
+         });
+      }
+   }
+};
 
 //DOM Variables
 const titleDOM = document.getElementById("title");
@@ -41,7 +52,11 @@ function play() {
    document.body.appendChild(gameScript);
 
    // Start after 5000ms
-   setTimeout(startGame, 5000);
+   setTimeout(function () {
+      startGame();
+      document.addEventListener("keypress", handleEvent);
+      document.addEventListener("touchstart", handleEvent);
+   }, 5000);
 }
 
 // Renders the Player, Starts rendering the Game
@@ -81,20 +96,6 @@ function showGameOver() {
 function updateScore() {
    scoreDOM.textContent = `Score: ${Math.floor(GAME.score / 10)}`;
 }
-
-document.addEventListener("keypress", (event) => {
-   if (event.code === "Space" && !GAME.isGameOver) {
-      if (player.pushedUp) {
-         requestAnimationFrame(function () {
-            push("down");
-         });
-      } else {
-         requestAnimationFrame(function () {
-            push("up");
-         });
-      }
-   }
-});
 
 // Check if score is Highscore
 function checkHighScore(score) {
