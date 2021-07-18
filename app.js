@@ -5,7 +5,7 @@ screen.orientation.addEventListener("change", function () {
 });
 
 const handleEvent = (event) => {
-   if ((event.code === "Space" || event === "touchstart") && !GAME.isGameOver) {
+   if ((event.code === "Space" || event.touches.length >= 1) && !GAME.isGameOver) {
       if (player.pushedUp) {
          requestAnimationFrame(function () {
             push("down");
