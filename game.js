@@ -179,6 +179,9 @@ function push(direction) {
 
 // Using requestAnimationFrame render Holes
 function renderHoles() {
+   if (GAME.isGameOver) {
+      return;
+   }
    GAME.isHoleRendering = true;
    updateScore();
    GAME.distance++;
@@ -192,7 +195,7 @@ function renderHoles() {
 
    hole.xCord = hole.xCord - GAME.speedX;
 
-   if (touchedHole(hole.xCord, hole.xCord + hole.width) || GAME.isGameOver) {
+   if (touchedHole(hole.xCord, hole.xCord + hole.width)) {
       showGameOver();
    } else {
       if (hole.xCord >= -hole.width) {
@@ -221,6 +224,9 @@ function touchedHole(x, y) {
 
 // Using requestAnimationFrame render Obstacles
 function renderObstacle(obstacle) {
+   if (GAME.isGameOver) {
+      return;
+   }
    GAME.isObjectRendering = true;
    context.beginPath();
    context.fillStyle = grey;
@@ -272,7 +278,6 @@ function renderObstacle(obstacle) {
       });
    } else {
       GAME.isObjectRendering = false;
-      GAME.updateGamePlay();
    }
 }
 
